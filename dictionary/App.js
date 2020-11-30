@@ -1,12 +1,11 @@
 import React from 'react';
 import {Root} from 'native-base';
-
-import {Home} from './src/screens';
+import Router from './src/routes';
 
 export default function App() {
   return (
     <Root>
-      <Home />
+      <Router />
     </Root>
   );
 }
