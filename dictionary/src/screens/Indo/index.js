@@ -13,10 +13,11 @@ import {
 import styles from './style';
 import {Button} from '../../components';
 import kamus from '../../data/kamus';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export default function Home({navigation}) {
   const [indo, setIndo] = useState('');
-  const [hitu, setHitu] = useState('');
+  const [ternate, setTernate] = useState('');
   const [inggris, setInggris] = useState('');
   const [sugestion, setSugestion] = useState([]);
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Home({navigation}) {
     }
     let toTranslate = word ? word : indo;
     let found = kamus.find((element) => element.indo === toTranslate);
-    setHitu(
+    setTernate(
       found ? found.ternate : `${toTranslate} tidak terdaftar dalam kamus`,
     );
     setInggris(
@@ -49,48 +50,50 @@ export default function Home({navigation}) {
         </Body>
       </Header>
       <Content>
-        <View style={styles.container}>
-          <Item floatingLabel>
-            <Label>Indonesia</Label>
-            <Input onChangeText={setIndo} value={indo} />
-          </Item>
-          {sugestion.length > 0 && (
-            <View
-              style={{
-                borderBottomWidth: 1.5,
-                borderRightWidth: 1.5,
-                borderLeftWidth: 1.5,
-                borderColor: '#bfbebe',
-              }}>
-              {sugestion.map((data, index) => (
-                <TouchableOpacity
-                  onPress={() => translate(data.indo)}
-                  key={index}>
-                  <Text
-                    style={{
-                      width: Dimensions.get('screen').width - 60,
-                      borderBottomWidth: 0.5,
-                      borderColor: '#bfbebe',
-                      paddingVertical: 5,
-                      color: '#6a6866',
-                      paddingStart: 5,
-                    }}>
-                    {data.indo}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-          <Button title="ARTI" action={translate} />
-          <Item style={styles.disabledInput} stackedLabel>
-            <Label>Ternate</Label>
-            <Input disabled value={hitu} />
-          </Item>
-          <Item style={styles.disabledInput} stackedLabel>
-            <Label>Inggris</Label>
-            <Input disabled value={inggris} />
-          </Item>
-        </View>
+        <ScrollView>
+          <View style={styles.container}>
+            <Item floatingLabel>
+              <Label>Indonesia</Label>
+              <Input onChangeText={setIndo} value={indo} />
+            </Item>
+            {sugestion.length > 0 && (
+              <View
+                style={{
+                  borderBottomWidth: 1.5,
+                  borderRightWidth: 1.5,
+                  borderLeftWidth: 1.5,
+                  borderColor: '#bfbebe',
+                }}>
+                {sugestion.map((data, index) => (
+                  <TouchableOpacity
+                    onPress={() => translate(data.indo)}
+                    key={index}>
+                    <Text
+                      style={{
+                        width: Dimensions.get('screen').width - 60,
+                        borderBottomWidth: 0.5,
+                        borderColor: '#bfbebe',
+                        paddingVertical: 5,
+                        color: '#6a6866',
+                        paddingStart: 5,
+                      }}>
+                      {data.indo}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+            <Button title="ARTI" action={translate} />
+            <Item style={styles.disabledInput} stackedLabel>
+              <Label>Ternate</Label>
+              <Input disabled value={ternate} />
+            </Item>
+            <Item style={styles.disabledInput} stackedLabel>
+              <Label>Inggris</Label>
+              <Input disabled value={inggris} />
+            </Item>
+          </View>
+        </ScrollView>
       </Content>
     </Container>
   );

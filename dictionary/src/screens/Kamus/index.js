@@ -5,9 +5,8 @@ import styles from './style';
 import {Button} from '../../components';
 
 export default function Kamus({navigation}) {
-  const navigate2hitu = () => {
-    navigation.navigate('Hitu');
-    // console.log('navigate2hitu');
+  const navigate2ternate = () => {
+    navigation.navigate('Ternate');
   };
   const navigate2indo = () => {
     navigation.navigate('Indo');
@@ -24,7 +23,7 @@ export default function Kamus({navigation}) {
       </Header>
       <Content>
         <View style={styles.container}>
-          <Button title="Ternate" action={navigate2hitu} />
+          <Button title="Ternate" action={navigate2ternate} />
           <Button title="INDONESIA" action={navigate2indo} />
           <Button title="INGGRIS" action={navigate2inggris} />
         </View>

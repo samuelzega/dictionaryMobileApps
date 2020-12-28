@@ -4,7 +4,7 @@ import {
   Kamus,
   Indo,
   Inggris,
-  Hitu,
+  Ternate,
   Pengetahuan,
   Tentang,
 } from '../screens';
@@ -37,8 +37,8 @@ function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Hitu"
-          component={Hitu}
+          name="Ternate"
+          component={Ternate}
           options={{headerShown: false}}
         />
         <Stack.Screen
