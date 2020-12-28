@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {
   Container,
   Content,
@@ -18,10 +18,28 @@ export default function Home({navigation}) {
   const [indo, setIndo] = useState('');
   const [hitu, setHitu] = useState('');
   const [inggris, setInggris] = useState('');
-  const translate = () => {
-    let found = kamus.find((element) => element.indo === indo);
-    setHitu(found ? found.ternate : `${indo} tidak terdaftar dalam kamus`);
-    setInggris(found ? found.inggris : `${indo} tidak terdaftar dalam kamus`);
+  const [sugestion, setSugestion] = useState([]);
+  useEffect(() => {
+    if (indo.length > 1) {
+      let found = kamus.filter((element) => element.indo.includes(indo));
+      setSugestion(found);
+    } else {
+      setSugestion([]);
+    }
+  }, [indo]);
+  const translate = (word) => {
+    if (word) {
+      setIndo(word);
+    }
+    let toTranslate = word ? word : indo;
+    let found = kamus.find((element) => element.indo === toTranslate);
+    setHitu(
+      found ? found.ternate : `${toTranslate} tidak terdaftar dalam kamus`,
+    );
+    setInggris(
+      found ? found.inggris : `${toTranslate} tidak terdaftar dalam kamus`,
+    );
+    setSugestion([]);
   };
   return (
     <Container>
@@ -36,6 +54,33 @@ export default function Home({navigation}) {
             <Label>Indonesia</Label>
             <Input onChangeText={setIndo} value={indo} />
           </Item>
+          {sugestion.length > 0 && (
+            <View
+              style={{
+                borderBottomWidth: 1.5,
+                borderRightWidth: 1.5,
+                borderLeftWidth: 1.5,
+                borderColor: '#bfbebe',
+              }}>
+              {sugestion.map((data, index) => (
+                <TouchableOpacity
+                  onPress={() => translate(data.indo)}
+                  key={index}>
+                  <Text
+                    style={{
+                      width: Dimensions.get('screen').width - 60,
+                      borderBottomWidth: 0.5,
+                      borderColor: '#bfbebe',
+                      paddingVertical: 5,
+                      color: '#6a6866',
+                      paddingStart: 5,
+                    }}>
+                    {data.indo}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
           <Button title="ARTI" action={translate} />
           <Item style={styles.disabledInput} stackedLabel>
             <Label>Ternate</Label>
